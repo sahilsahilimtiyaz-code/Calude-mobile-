@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Claude Luxe — Premium Mobile AI</title>
+<meta name="description" content="Premium mobile Claude AI interface. Free via Puter.js, no backend.">
+<meta name="theme-color" content="#08080c">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Claude Luxe">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<script src="https://js.puter.com/v2/"></script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="ambient" aria-hidden="true"><div class="orb orb-a"></div><div class="orb orb-b"></div><div class="orb orb-c"></div><div class="grain"></div></div>
+
+<div class="app" id="app">
+  <!-- Top bar -->
+  <header class="topbar">
+    <button class="icon-btn" id="menuBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+    </button>
+    <div class="brand">
+      <div class="brand-mark">C</div>
+      <div class="brand-text"><span class="brand-name">Claude Luxe</span><span class="brand-sub" id="authStatus">Free • Puter</span></div>
+    </div>
+    <button class="model-pill" id="modelPill"><span id="chatCurrentModelTop">Sonnet 4</span>
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg>
+    </button>
+    <button class="icon-btn gold" id="newChatTopBtn" aria-label="New chat">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+    </button>
+  </header>
+
+  <!-- Drawer -->
+  <div class="scrim" id="scrim"></div>
+  <aside class="drawer" id="drawer" aria-label="Menu">
+    <div class="drawer-glow"></div>
+    <div class="drawer-header">
+      <div class="brand"><div class="brand-mark">C</div><div class="brand-text"><span class="brand-name">Claude</span><span class="brand-sub">Luxe Edition</span></div></div>
+      <button class="icon-btn" id="closeDrawerBtn" aria-label="Close menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <button class="new-chat-luxe" id="newChatBtn"><span class="plus">+</span> New chat <span class="shine"></span></button>
+    <nav class="drawer-nav">
+      <button class="nav-item active" data-tab="chats"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg>Chats</button>
+      <button class="nav-item" data-tab="projects"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-5 14H7v-2h7zm3-4H7v-2h10zm0-4H7V7h10z"/></svg>Projects</button>
+      <button class="nav-item" data-tab="artifacts"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>Artifacts <span class="count" id="artifactCount">0</span></button>
+    </nav>
+    <div class="drawer-section"><div class="section-title">Recents</div><div class="recent-items" id="recentItems"></div></div>
+    <div class="drawer-footer">
+      <div class="theme-row">
+        <span>Midnight Luxe</span>
+        <button class="switch on" id="themeSwitch" aria-label="Toggle theme"><span class="knob"></span></button>
+      </div>
+      <div class="user-info" id="userInfoBtn">
+        <div class="user-avatar">H</div>
+        <div class="user-details"><div class="user-name">Hassan</div><div class="user-plan">Pro plan • Free via Puter</div></div>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <!-- Welcome -->
+    <section class="welcome" id="welcomeScreen">
+      <div class="greeting-wrap">
+        <div class="greeting-eyebrow" id="dateLine">Today</div>
+        <h1 class="greeting"><span class="sun">✦</span> <span id="greetingText">Good evening, Hassan</span></h1>
+        <p class="greeting-sub">Your private Claude atelier — ask, create, code.</p>
+      </div>
+
+      <div class="composer-luxe hero">
+        <textarea id="welcomeInput" rows="1" placeholder="How can I help you today?" enterkeyhint="send"></textarea>
+        <div class="composer-bar">
+          <button class="chip" id="researchBtn" aria-pressed="false">✧ Research</button>
+          <span class="composer-hint" id="protocolNoticeMini">Free access</span>
+          <button class="send-luxe" id="sendBtn" aria-label="Send">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="auth-card" id="authCard">
+        <div class="auth-title">💡 First time? One-tap free access</div>
+        <div class="auth-desc">A small popup connects your Puter account for free Claude. Please allow popups.</div>
+        <div class="auth-desc dim" id="protocolNotice"></div>
+        <div class="auth-row">
+          <button class="auth-btn" id="authButton">🔐 Authenticate with Puter</button>
+          <button class="link-btn" id="troubleBtn">Troubleshoot</button>
+        </div>
+      </div>
+
+      <button class="model-btn-luxe" id="modelSelector"><span id="currentModel">Claude Sonnet 4</span>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg>
+      </button>
+
+      <div class="quick-grid">
+        <button class="quick" data-prompt="Help me write"><span class="q-ico">✒️</span><span><b>Write</b><i>Craft with elegance</i></span></button>
+        <button class="quick" data-prompt="Teach me about"><span class="q-ico">🎓</span><span><b>Learn</b><i>Master anything</i></span></button>
+        <button class="quick" data-prompt="Help me code"><span class="q-ico">💻</span><span><b>Code</b><i>Ship faster</i></span></button>
+        <button class="quick" data-prompt="Help me with daily tasks"><span class="q-ico">✨</span><span><b>Life stuff</b><i>Everyday magic</i></span></button>
+        <button class="quick wide" data-prompt="Help me connect my apps"><span class="q-ico">🔗</span><span><b>Connect apps</b><i>Automate your flow</i></span></button>
+      </div>
+      <div class="pwa-hint" id="pwaHint" hidden><span>Install Claude Luxe for fullscreen luxury.</span><button id="pwaBtn">Install</button></div>
+    </section>
+
+    <!-- Chat -->
+    <section class="chat" id="chatContainer">
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="typing" id="typingIndicator"><div class="t-avatar">✦</div><span>Claude is composing</span><div class="dots"><i></i><i></i><i></i></div></div>
+      <div class="composer-sticky">
+        <div class="composer-luxe">
+          <textarea id="chatInput" rows="1" placeholder="Message Claude…" enterkeyhint="send"></textarea>
+          <div class="composer-bar">
+            <button class="chip small" id="chatModelSelector"><span id="chatCurrentModel">Sonnet 4</span> ▾</button>
+            <button class="send-luxe" id="chatSendBtn" aria-label="Send">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- Model sheet -->
+<div class="sheet-scrim" id="modelScrim"></div>
+<div class="sheet" id="modelSheet" role="dialog" aria-label="Choose model">
+  <div class="grab"></div><h3>Choose your Claude</h3><p class="sheet-sub">Same free Puter access, different brilliance.</p>
+  <div id="modelList"></div>
+</div>
+
+<!-- Artifact viewer -->
+<div class="sheet-scrim" id="artScrim"></div>
+<div class="sheet tall" id="artSheet" role="dialog" aria-label="Artifact">
+  <div class="grab"></div>
+  <div class="art-head"><div><div class="art-kicker">Artifact</div><h3 id="artTitle">Code</h3></div>
+    <div class="art-btns"><button class="artifact-btn" id="artCopy">Copy</button><button class="artifact-btn" id="artDownload">Download</button><button class="artifact-btn view" id="artOpen">Open</button></div>
+  </div>
+  <pre class="art-full"><code id="artCode"></code></pre>
+  <div class="art-html-wrap" id="artHtmlWrap" hidden><iframe id="artFrame" sandbox="allow-scripts" title="HTML preview"></iframe></div>
+</div>
+
+<!-- Troubleshoot -->
+<div class="sheet-scrim" id="helpScrim"></div>
+<div class="sheet tall" id="helpSheet" role="dialog" aria-label="Auth help">
+  <div class="grab"></div><h3>Auth failed? Fix in 30s</h3>
+  <p class="sheet-sub">Almost always your browser profile — not the app.</p>
+  <ol class="help-list">
+    <li><b>Try Incognito first</b> — fastest workaround. Open this app in private mode.</li>
+    <li><b>Disable extensions</b> — especially ad-blockers. Then retry.</li>
+    <li><b>Clear Puter site data</b> — puter.com → 🔒 → delete cookies.</li>
+    <li><b>Allow third-party cookies</b> — or allow <code>[*.]puter.com</code>.</li>
+    <li><b>Allow popups</b> for this site, then tap Authenticate again.</li>
+  </ol>
+  <button class="auth-btn full" id="helpAuthBtn">🔐 Try authenticate again</button>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>
