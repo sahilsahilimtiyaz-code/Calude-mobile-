@@ -1,6 +1,5 @@
-import { CapacitorConfig } from '@capacitor/cli';
-
-const config: CapacitorConfig = {
+/** @type {import('@capacitor/cli').CapacitorConfig} */
+const config = {
   appId: 'com.claudeluxe.app',
   appName: 'Claude Luxe',
   webDir: 'www',
@@ -13,4 +12,4 @@ const config: CapacitorConfig = {
   },
 };
 
-export default config;
+module.exports = config;
