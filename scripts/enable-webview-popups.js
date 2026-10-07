@@ -173,10 +173,6 @@ public class MainActivity extends BridgeActivity {
             if (delegate != null) delegate.onExceededDatabaseQuota(url, databaseIdentifier, quota, estimatedDatabaseSize, totalQuota, quotaUpdater);
             else super.onExceededDatabaseQuota(url, databaseIdentifier, quota, estimatedDatabaseSize, totalQuota, quotaUpdater);
         }
-        @Override public void onReachedMaxAppCacheSize(long requiredStorage, long quota, WebStorage.QuotaUpdater quotaUpdater) {
-            if (delegate != null) delegate.onReachedMaxAppCacheSize(requiredStorage, quota, quotaUpdater);
-            else super.onReachedMaxAppCacheSize(requiredStorage, quota, quotaUpdater);
-        }
         @Override public void onShowCustomView(View view, CustomViewCallback callback) {
             if (delegate != null) delegate.onShowCustomView(view, callback);
             else super.onShowCustomView(view, callback);
