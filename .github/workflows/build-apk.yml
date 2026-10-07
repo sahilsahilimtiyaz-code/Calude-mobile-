@@ -8,8 +8,8 @@ on:
 permissions:
   contents: read
 
-# Note: Puter.js auth uses a browser popup. If it ever fails inside the
-# APK WebView, use the installed PWA / browser build instead.
+# Note: Puter.js auth uses window.open popups. The Android shell is patched
+# (see scripts/enable-webview-popups.js) so popups open in an in-app dialog.
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -37,6 +37,7 @@ jobs:
       - name: Add and sync Android shell
         run: |
           if [ ! -d android ]; then npx cap add android; fi
+          node scripts/enable-webview-popups.js
           npx cap sync android
 
       - name: Build debug APK
